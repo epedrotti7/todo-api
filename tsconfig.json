@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+      "target": "es2019",                 // Define a versão do ECMAScript de saída para a mais recente suportada pelo Node.js
+      "module": "commonjs",               // Especifica o sistema de módulos
+      "lib": ["es2019"],                  // Bibliotecas do JS que serão incluídas na compilação
+      "outDir": "./dist",                 // Pasta de saída para os arquivos compilados
+      "rootDir": "./src",                 // Pasta de entrada para arquivos .ts
+      "strict": true,                     // Ativa todas as opções estritas
+      "esModuleInterop": true,            // Permite a interoperabilidade de módulos ES6 com módulos CommonJS
+      "skipLibCheck": true,               // Pula a checagem de tipos nos arquivos de declaração
+      "forceConsistentCasingInFileNames": true, // Impede o uso de letras maiúsculas e minúsculas de forma inconsistente
+      "resolveJsonModule": true,          // Permite a importação de arquivos .json
+      "noImplicitReturns": true,          // Não permite funções sem retorno
+      "noUnusedLocals": true,             // Reporta variáveis locais não utilizadas
+      "noUnusedParameters": true,         // Reporta parâmetros não utilizados
+      "removeComments": true,              // Remove comentários no arquivo de saída,
+      "typeRoots": ["./node_modules/@types", "./types"]
+    },
+    "include": [
+      "src/**/*.ts",
+      "fastify.d.ts"                       // Arquivos TypeScript para incluir na compilação
+, "types/fastify-swagger.d.ts"    ],
+    "exclude": [
+      "node_modules",                     // Pasta a ser ignorada na compilação
+      "**/*.spec.ts"                      // Exclui arquivos de teste da compilação
+    ]
+  }
+  

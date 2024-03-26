@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Teste WebSocket TodoApp</title>
+    <script src="https://cdn.socket.io/4.3.2/socket.io.min.js"></script>
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const socket = io('http://0.0.0.0:8080');
+
+            socket.on('connect', () => {
+                console.log('Conectado ao servidor de WebSocket');
+                socket.emit('getTodos');
+            });
+
+            socket.on('todos', (todos) => {
+                console.log('Tarefas recebidas:', todos);
+                displayTodos(todos);
+            });
+
+            function displayTodos(todos) {
+                const todoList = document.getElementById('todo-list');
+                todoList.innerHTML = '';
+                todos.todos.forEach(todo => {
+                    appendTodoToList(todo);
+                });
+            }
+
+            function appendTodoToList(todo) {
+                const todoList = document.getElementById('todo-list');
+                const todoItem = document.createElement('div');
+                todoItem.textContent = todo.body;
+                todoList.appendChild(todoItem);
+            }
+
+            function createTodo() {
+                console.log('Botão clicado!');
+                const todoText = document.getElementById('todoText').value;
+
+                if (!todoText.trim()) {
+                    alert('Por favor, insira uma tarefa.');
+                    return;
+                }
+
+                console.log('todoText', todoText);
+                socket.emit('createTodo', { body: todoText });
+                document.getElementById('todoText').value = '';
+            }
+
+            window.createTodo = createTodo;
+        });
+    </script>
+
+</head>
+
+<body>
+    <h1>TodoApp WebSocket Test</h1>
+    <input type="text" id="todoText" placeholder="Nova Tarefa" />
+    <button onclick="createTodo()">Criar Tarefa</button>
+    <div id="todo-list"></div>
+</body>
+
+</html>

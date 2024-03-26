@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - todo-api-network
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_HOST: mongodb
+      MONGO_PORT: 27017
+      MONGO_INITDB_DATABASE: todoapp
+    depends_on:
+      - mongodb
+    networks:
+      - todo-api-network
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  todo-api-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
